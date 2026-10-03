@@ -1,0 +1,15 @@
+node_modules
+.pnpm-store
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+.vercel
+.sanity
+dist
+.DS_Store
+npm-debug.log*
+pnpm-debug.log*
