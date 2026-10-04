@@ -59,6 +59,7 @@ Everything optional is hidden on the site until you fill it in, so nothing looks
 - **Sanity webhook (shipped emails, cancellations):** manage > API > Webhooks > create. URL `https://elorgestore.org/api/order-updated?secret=SANITY_WEBHOOK_SECRET`, dataset production, trigger Create + Update, filter `_type == "order"`, projection `{_id}`, POST, drafts off.
 - **Telegram alerts:** create a bot with @BotFather; press Start on it and send "hi"; open `https://api.telegram.org/bot<TOKEN>/getUpdates` (note the word `bot`) and copy `chat.id`. Test: `https://api.telegram.org/bot<TOKEN>/sendMessage?chat_id=<ID>&text=test`.
 - **Live chat (visitors on site, you on Telegram):** after deploying, open once: `https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://elorgestore.org/api/telegram&secret_token=<TELEGRAM_WEBHOOK_SECRET>`. Reply to a visitor by long-pressing their message in Telegram > Reply.
+- **Live chat troubleshooting:** open `https://api.telegram.org/bot<TOKEN>/getWebhookInfo`. Empty `url` = webhook not registered (or you are testing on localhost, where Telegram cannot reach you). `last_error_message` with 403 = TELEGRAM_WEBHOOK_SECRET in Vercel differs from the secret_token you registered (redeploy after changing it); 404 = the site is not deployed with `/api/telegram`; 500 = check Vercel logs (Sanity token / project id). You must use Telegram's **Reply** on the visitor's tagged message. After each reply the bot answers "Delivered to visitor #xxxxxx"; no such line means your reply did not reach the site. For local testing only: `deleteWebhook`, set `TELEGRAM_POLL=true`, restart `pnpm dev`.
 - **Product feed** for Meta (Facebook/Instagram) Commerce Manager and Google Merchant Center: `https://elorgestore.org/feeds/products.xml` (refreshes hourly). Check what each platform supports in Nigeria before investing time.
 - **Automatic refunds (`AUTO_REFUND`):** keep `false` until tested. Test with Flutterwave TEST keys: pay a test order, set it to **cancelled** in Studio, then confirm stock returns and Telegram reports "Refund started automatically" (with `true`) or "Refund NOT sent" (with `false`). Only then set `true` in Vercel and redeploy. It refunds the FULL total (including delivery), starts the moment you change the status, can fail (for example low Flutterwave balance; read the Telegram message), and does not undo seller payouts you already made. Partial refunds: do them by hand in Flutterwave.
 - **Google Analytics (`NEXT_PUBLIC_GA_ID`):** analytics.google.com > create property "Elorge Store" (time zone Lagos, currency NGN) > Web stream for elorgestore.org > copy the Measurement ID (`G-XXXX`). Test: open the live site in a private window, press Accept on the cookie notice, check Reports > Realtime.
@@ -106,7 +107,7 @@ Work through this when you have partner agreements and product photos.
 - [ ] Live chat: send from the site, reply from Telegram, answer appears
 - [ ] Install the app on a phone and a laptop; check pages on a slow phone connection
 
-**F. Flip to live**
+**F. Flip to live** (follow section 7 step by step)
 - [ ] Replace the Flutterwave TEST key with the LIVE key in Vercel; redeploy
 - [ ] Place one small real order yourself and refund it; confirm the whole chain works
 - [ ] Leave `AUTO_REFUND=false` for the first weeks; refund manually in Flutterwave until you trust the flow
@@ -118,5 +119,23 @@ Work through this when you have partner agreements and product photos.
 - [ ] Watch the Sales tab for low stock; keep stock numbers honest
 - [ ] Record what you owe each seller and pay them on the agreed schedule
 
-## 7. Not built yet (decide later)
+## 7. LAUNCH DAY: switch from the test site to elorgestore.org
+Until now you have been testing on the Vercel test address (currently `https://e-store-eight-rose.vercel.app`). Several things point at a web address, so each one must be moved to `https://elorgestore.org` when you go live. Do them in this order. Use placeholders below; never paste real tokens or secrets into chats, tickets or Git.
+
+1. **Connect the domain in Vercel:** Project > Settings > Domains > add `elorgestore.org` (and `www.elorgestore.org`, redirecting to the main one). Add the DNS records Vercel shows at your registrar. Wait until Vercel shows the domain as valid with HTTPS.
+2. **Update `NEXT_PUBLIC_SITE_URL`** in Vercel to `https://elorgestore.org`, then **redeploy**. It controls: where customers return after paying, links in emails and invoices, canonical addresses, the sitemap, the product feed, and social share previews.
+3. **Sanity CORS:** manage > API > CORS origins > add `https://elorgestore.org` (allow credentials). Keep the test address until you are done testing.
+4. **Telegram live-chat webhook** (a bot can only have ONE webhook, so this replaces the test one):
+   `https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://elorgestore.org/api/telegram&secret_token=<TELEGRAM_WEBHOOK_SECRET>`
+   Then open `https://api.telegram.org/bot<TOKEN>/getWebhookInfo` and check: `url` shows elorgestore.org, `pending_update_count` is 0, there is no `last_error_message`. Test: send a chat from the live site, long-press it in Telegram > Reply, wait for "Delivered to visitor #...".
+5. **Flutterwave:** Settings > Webhooks: change the URL to `https://elorgestore.org/api/webhook` (same secret hash). Replace the TEST secret key with the LIVE key in Vercel and redeploy.
+6. **Sanity webhook:** manage > API > Webhooks: change the URL to `https://elorgestore.org/api/order-updated?secret=<SANITY_WEBHOOK_SECRET>`.
+7. **Email (Resend):** make sure the elorgestore.org domain shows as Verified, and `EMAIL_FROM` uses it (for example `Elorge Store <orders@elorgestore.org>`).
+8. **Analytics and search:** in Google Analytics make sure the web stream is for elorgestore.org; add elorgestore.org in Google Search Console (and Bing) and submit `https://elorgestore.org/sitemap.xml`; if you use the Facebook/Instagram or Google Merchant catalogue, change the feed address to `https://elorgestore.org/feeds/products.xml`.
+9. **Social accounts:** put `https://elorgestore.org` in every bio and the real links in Studio > Site Settings.
+10. **Final check on the live address:** place one small real order and refund it; then confirm the paid status, stock, email, invoice link, `/track`, and a live-chat round trip. Check the browser address bar shows elorgestore.org the whole way through checkout and back.
+
+If something breaks after the switch, the usual causes are: a variable not redeployed, the old address still in a webhook, or the domain missing from Sanity CORS. Re-check `getWebhookInfo`, Flutterwave's webhook log, and Vercel's function logs.
+
+## 8. Not built yet (decide later)
 Customer accounts and saved addresses; automatic split payments to sellers (payouts are tracked in Studio and paid manually); WhatsApp Business API alerts; selling outside Nigeria (multi-currency, international shipping, customs).

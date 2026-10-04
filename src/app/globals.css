@@ -98,3 +98,5 @@ footer{background:var(--card)}.fgrid{display:grid;grid-template-columns:1.4fr 1f
 .chatwho{display:grid;gap:6px;padding:8px 12px 0}.chatin{display:flex;gap:8px;padding:10px 12px}.chatin .btn{padding:10px 16px}
 
 .social{display:flex;flex-wrap:wrap;gap:8px}.fgrid .social a{display:inline-block;margin:0;padding:6px 12px;border:1px solid var(--line);border-radius:99px;font-size:13px;color:var(--ink)}.fgrid .social a:hover{border-color:var(--blue);color:var(--blue)}
+
+.pwabar{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;padding:8px 14px;background:color-mix(in srgb,var(--blue) 10%,var(--bg));border-bottom:1px solid var(--line);font-size:14px}.pwabar .btn{padding:6px 16px}

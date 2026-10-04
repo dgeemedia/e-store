@@ -29,7 +29,6 @@ export default async function Root({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en"><body className={font.variable}><CartProvider>
       <Intro url={s.introVideoUrl} />
-      <PWA />
       <Analytics />
       <ChatWidget />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
@@ -39,6 +38,7 @@ export default async function Root({ children }: { children: React.ReactNode }) 
         <form action="/" method="get" className="hsearch"><input name="q" placeholder="Search products or sellers…" aria-label="Search" /><button className="btn" type="submit">Search</button></form>
         <nav className="hnav"><Link href="/quote">Bulk orders</Link><Link href="/track">Track order</Link><CartLink /></nav>
       </div></header>
+      <PWA />
       {children}
       <footer><div className="wrap">
         <div className="fgrid">

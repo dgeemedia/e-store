@@ -26,6 +26,7 @@ export default function ChatWidget() {
     const t = text.trim()
     if (!t) return
     if (!name.trim()) return setErr('Please enter your name.')
+    if (phone.replace(/\D/g, '').length < 10) return setErr('Please enter your phone number so we can reach you.')
     setErr(''); setText(''); localStorage.setItem('elorge-chat-name', name); localStorage.setItem('elorge-chat-phone', phone)
     const r = await fetch('/api/chat', { method: 'POST', body: JSON.stringify({ cid, name, phone, text: t }) }), d = await r.json().catch(() => ({}))
     if (d.ok) { localStorage.setItem('elorge-chat-used', '1'); setUsed(true); setMsgs((m) => (m.some((x) => x._id === d.message._id) ? m : [...m, d.message])) } else { setErr(d.error || 'Could not send. Try again.'); setText(t) }
@@ -38,7 +39,7 @@ export default function ChatWidget() {
       <div className="chatmsgs" ref={box}>
         <div className="chatm owner">Hello! Ask us anything about a product, a bulk order or delivery. We reply here.</div>
         {msgs.map((m) => <div key={m._id} className={`chatm ${m.sender}`}>{m.text}</div>)}</div>
-      {!used && <div className="chatwho"><input placeholder="Your name *" value={name} onChange={(e) => setName(e.target.value)} /><input placeholder="Phone (optional, so we can call back)" value={phone} onChange={(e) => setPhone(e.target.value)} /></div>}
+      {(!used || !phone) && <div className="chatwho"><input placeholder="Your name *" value={name} onChange={(e) => setName(e.target.value)} /><input placeholder="Phone number *" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} /><small style={{ color: 'var(--mute)' }}>If we cannot reply here, we will call or WhatsApp you on this number.</small></div>}
       {err && <div className="err" style={{ padding: '0 12px' }}>{err}</div>}
       <div className="chatin"><input placeholder="Type your message…" value={text} maxLength={600} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && send()} /><button className="btn" onClick={send}>Send</button></div>
     </div>}
