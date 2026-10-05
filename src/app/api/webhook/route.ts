@@ -25,8 +25,9 @@ export async function POST(req: NextRequest) {
   if (order.claimId) await writeClient.patch(order.claimId).set({ status: 'paid' }).commit().catch(() => {})
   const payouts = await computePayouts(order.items || []).catch(() => [])
   if (payouts.length) await writeClient.patch(order._id).set({ payouts }).commit().catch(() => {})
+  const payLines = (payouts as any[]).filter((p) => p.payable > 0).map((p) => `${p.seller}: ₦${Math.round(p.payable).toLocaleString('en-NG')}`).join('; ')
   const totalText = `₦${Math.round(order.total).toLocaleString('en-NG')}`
-  await notify(`New paid order ${order.reference}${order.promoCode ? ' · ' + order.promoCode : ''}\n${order.name} · ${order.phone}\nTotal ${totalText}${cur !== 'NGN' ? ` (paid ${cur} ${order.payAmount})` : ''}\nDelivery: ${order.logisticsPartner || (order.delivery === 'pickup' ? 'Pickup' : 'Standard')}${order.logisticsZone ? ' / ' + order.logisticsZone : ''}${order.deliveryArea ? ' (' + order.deliveryArea + ')' : ''}\nWaybill: ${process.env.NEXT_PUBLIC_SITE_URL}/invoice/${order.viewKey}?waybill=1`)
+  await notify(`New paid order ${order.reference}${order.promoCode ? ' · ' + order.promoCode : ''}\n${order.name} · ${order.phone}\nTotal ${totalText}${cur !== 'NGN' ? ` (paid ${cur} ${order.payAmount})` : ''}\nDelivery: ${order.logisticsPartner || (order.delivery === 'pickup' ? 'Pickup' : 'Standard')}${order.logisticsZone ? ' / ' + order.logisticsZone : ''}${order.deliveryArea ? ' (' + order.deliveryArea + ')' : ''}\nPay sellers BEFORE collecting goods: ${payLines || 'none'}\nWaybill: ${process.env.NEXT_PUBLIC_SITE_URL}/invoice/${order.viewKey}?waybill=1`)
   await sendOrderEmail(order)
   if (order.whatsappOptIn) await sendWhatsApp(order.phone, process.env.WA_TEMPLATE_PAID || 'order_confirmed', [order.name || 'there', order.reference, totalText])
   return ok()

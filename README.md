@@ -45,7 +45,7 @@ Everything optional is hidden on the site until you fill it in, so nothing looks
 | **Flash Sales & Promos** | Timed sale with tag text (e.g. BLACK FRIDAY) and promo prices |
 | **Lightning Deals** | 3-5 minute first-click deals with a unit limit and promo code prefix |
 | **Discount Codes** | % or naira off, minimum spend, max uses, dates |
-| **Orders** | Set status (paid, shipped, delivered, cancelled), carrier, tracking note; tick "Paid to seller?" |
+| **Orders** | Set status (paid, shipped, delivered, cancelled), carrier, tracking note; tick "Paid to seller?" (pay sellers BEFORE collecting goods) |
 | **Orders to ship / Low stock / Reviews to approve** | Ready-made work lists |
 | **Bulk Quote Requests, Seller Applications, Logistics Applications, Chat history** | Inbound leads |
 | **Customers (accounts)** | Customers who signed in: name, phone, saved addresses |
@@ -56,7 +56,7 @@ Everything optional is hidden on the site until you fill it in, so nothing looks
 - Product list with: name, unit price, pack size and pack price, volume discounts, weight, warranty terms, dispatch time
 - Photos (see below) and permission in writing to use them
 - Who supplies the invoice and delivery documents; who handles warranty claims and returns
-- Commission % you agreed, and how/when you pay them out
+- Commission % you agreed, and their company bank account details (you pay them in full BEFORE collecting each order)
 - Whether they sell through other distributors (agree on pricing in writing)
 
 **Photo standard:** square, at least 1000x1000, plain background, 3 to 5 per product, no other marketplace's watermark, only images you have the right to use.
@@ -65,7 +65,7 @@ Everything optional is hidden on the site until you fill it in, so nothing looks
 Everything you need to approach partners is in the **`partner-kit`** folder: the one-page partner summary (Word), WhatsApp and email outreach messages, and the two spreadsheets partners fill in.
 
 1. Choose 2 to 4 launch partners (start with the manufacturers you already work with) and aim for 20 to 40 products in total.
-2. Meet each with a one-page summary: how the site works, what it costs them (advert fee, commission or nothing), how and when you pay them, and what you need from them.
+2. Meet each with a one-page summary: how the site works, what it costs them (advert fee, commission or nothing), that you pay them in full before each collection, and what you need from them.
 3. Send each the **product sheet** (`import-templates/products-template.csv`, plus `sellers-template.csv` for their company details) and the photo standard above. They return the filled sheet and a folder of photos.
 4. Load it on your test site (4b), then ask each partner to confirm in writing (a WhatsApp message is fine) that their prices, descriptions and photos are correct.
 5. Sign the agreement before any product goes public. Then follow the go-live checklist (section 6).
@@ -86,14 +86,24 @@ Instead of typing every product in Studio, partners fill a spreadsheet and you l
 ### 4c. What your partner agreement should cover (checklist for your lawyer, not legal advice)
 - Who the parties are (company names, RC numbers, signatories) and what products and price list the agreement covers; who may change prices and how much notice you get; any minimum resale price.
 - Exclusivity and channel conflict: whether they may sell the same products through distributors or other sites, and at what prices.
-- How you order: you buy per customer order and collect from the factory. Agree lead times, stock confirmation, cut-off times, minimum quantities and what happens when something is out of stock.
+- How you order (PAY FIRST, THEN COLLECT): for each customer order you confirm stock, receive a pro-forma invoice, pay the seller in full, and collect the goods only after the seller confirms payment in writing. Agree lead times, stock confirmation, cut-off times, minimum quantities, how fast the seller must confirm receipt of payment, and what happens when something is out of stock.
 - Documents with every purchase: invoice, signed delivery waybill and any customs or duty paperwork their arrangement requires. Agree who pays any duty and that you receive the paper with each collection.
 - Quality, warranty and returns: warranty length, who repairs or replaces faulty goods and how fast, and what happens with defective batches.
 - Approvals and compliance: check which product approvals (for example NAFDAC or SON) apply to each category, and who holds them.
 - Liability and insurance: damage in transit, product liability, and who is responsible when.
-- Money: commission or advert fee, how and when you pay them for goods, and how you handle refunds and cancelled orders.
+- Money: commission or advert fee; payment in full BEFORE collection by bank transfer to the seller's company account named in the agreement; the seller must refund or credit any payment for goods it cannot supply within an agreed number of days; and what happens when you cancel a customer order after paying (refund, credit or loss) and when a delivery is damaged or wrong.
 - Photos and brand: permission to use their logo, product photos and descriptions on the site and in social media and ads.
 - Customer data, confidentiality, how long the agreement lasts, how either side ends it, how disputes are settled and which law applies (Nigeria).
+
+### 4d. Money flow: customers pay first, you pay sellers first, then you collect
+1. **Customer pays online** (Flutterwave). The order turns **paid** in Studio and your Telegram alert lists what to pay each seller and says "Pay sellers BEFORE collecting goods". Pickup, delivery and lightning-deal orders are all prepaid; nothing is released on credit.
+2. **Confirm stock and get a pro-forma invoice** from each seller for that order.
+3. **Pay the seller in full** by bank transfer to the company account named in your agreement. Keep the proof of payment and tick **Paid to seller?** on the order. Studio shows two work lists: **Step 1: pay sellers** (customer paid, seller not yet paid) and **Step 2: ready to collect and ship** (seller paid).
+4. **The seller confirms payment received** in writing (a WhatsApp message is fine). Only then collect the goods, with the seller's final invoice, a signed delivery waybill and any customs or duty paperwork.
+5. **Dispatch** (Elorge Logistics or a partner), then set the order to **shipped** and add the tracking note.
+- **Protect yourself, because you pay before you receive:** pay only against a pro-forma invoice for a specific confirmed order; confirm stock before paying; start with small orders with new sellers; check the account name matches the seller and confirm any change of bank details by phone before paying; and have the agreement say undelivered goods are refunded within a set number of days.
+- **Pickup orders:** hand over goods only when the order shows **paid** and the buyer gives the order reference.
+- **Bulk and truckload quotes:** send a pro-forma invoice and release goods only after the payment (or the agreed deposit and balance) is confirmed in your bank account, not just shown on a screenshot.
 
 ## 5. Integrations (set up once the site is live on HTTPS)
 - **Flutterwave webhook:** URL `https://elorgestore.org/api/webhook`, secret hash = FLUTTERWAVE_SECRET_HASH.
@@ -185,7 +195,7 @@ Work through this when you have partner agreements and product photos.
 - [ ] Check Telegram and Studio's "Orders to ship" several times a day
 - [ ] Answer chats and quotes quickly; approve reviews
 - [ ] Watch the Sales tab for low stock; keep stock numbers honest
-- [ ] Record what you owe each seller and pay them on the agreed schedule
+- [ ] Pay each seller BEFORE collecting goods: work through the Studio lists "Step 1: pay sellers" then "Step 2: ready to collect and ship"; tick "Paid to seller?" and keep the proof of payment (section 4d)
 
 ## 7. LAUNCH DAY: switch from the test site to elorgestore.org
 Until now you have been testing on the Vercel test address (currently `https://e-store-eight-rose.vercel.app`). Several things point at a web address, so each one must be moved to `https://elorgestore.org` when you go live. Do them in this order. Use placeholders below; never paste real tokens or secrets into chats, tickets or Git.
@@ -214,9 +224,9 @@ If something breaks after the switch, the usual causes are: a variable not redep
 - *Worth doing soon after launch:* stock per colour/size (today variants share one stock number); purchase tracking events for Google Analytics and the Meta Pixel (today page views only); bulk CSV product import; a seller portal so partners can add their own products and see their sales; abandoned-cart reminders and a returns request form; rate limiting and a bot check on the quote, seller, review and coupon forms; error monitoring (for example Sentry) and a regular Sanity dataset export as a backup.
 - *Later:* courier booking and live tracking through courier APIs, with tracking of what you owe each courier; live courier API tracking (needs a chosen courier's API); loyalty points and saved cards (above); sales tax rules per country for international orders.
 
-**Decided not to build:** automatic split payments to sellers. You collect the money, buy on the client's behalf and pay the seller yourself, which avoids extra Flutterwave charges and checks. Payouts are tracked per order in Studio ("Paid to seller?") and totalled in the Sales tab.
+**Decided not to build:** automatic split payments to sellers. You collect the money, buy on the client's behalf and pay the seller yourself BEFORE collecting the goods, which avoids extra Flutterwave charges and checks. Payouts are tracked per order in Studio ("Paid to seller?") and totalled in the Sales tab.
 
 **Known limits**
 - Normal checkout checks stock when the order is created but reduces it when payment is confirmed, so two people could both pay for the last unit (lightning deals do not have this problem). Handle a clash by cancelling and refunding one order (cancelling restocks).
-- Cancelling an order does not undo a seller payout you already made.
+- Because you pay sellers before collecting, cancelling a customer order after you have paid a seller does not reverse that payment automatically: agree in writing whether the seller refunds, credits or keeps it, and cancel only when needed.
 - Nothing has been tested with real payments, WhatsApp, SMS, Google or Facebook login; follow the test section of the go-live checklist before using live keys.

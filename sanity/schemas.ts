@@ -70,7 +70,7 @@ const order = defineType({ name: 'order', title: 'Order', type: 'document', fiel
   defineField({ name: 'shippedEmailSent', type: 'boolean', readOnly: true }),
   defineField({ name: 'restocked', type: 'boolean', readOnly: true }),
   defineField({ name: 'refunded', type: 'boolean', readOnly: true }),
-  defineField({ name: 'payouts', title: 'Seller payouts', type: 'array', of: [{ type: 'object', name: 'payout', fields: [{ name: 'seller', type: 'string', readOnly: true }, { name: 'sales', type: 'number', readOnly: true }, { name: 'commission', type: 'number', readOnly: true }, { name: 'payable', type: 'number', readOnly: true }, { name: 'paid', title: 'Paid to seller?', type: 'boolean' }], preview: { select: { title: 'seller', subtitle: 'payable' } } }] }),
+  defineField({ name: 'payouts', title: 'Seller payouts', type: 'array', of: [{ type: 'object', name: 'payout', fields: [{ name: 'seller', type: 'string', readOnly: true }, { name: 'sales', type: 'number', readOnly: true }, { name: 'commission', type: 'number', readOnly: true }, { name: 'payable', type: 'number', readOnly: true }, { name: 'paid', title: 'Paid to seller?', type: 'boolean', description: 'Tick after you have paid this seller. Do this BEFORE collecting the goods, and keep the proof of payment.' }], preview: { select: { title: 'seller', subtitle: 'payable' } } }] }),
   defineField({ name: 'trackingNumber', type: 'string', description: 'Courier waybill / tracking number' }),
   defineField({ name: 'carrier', title: 'Carrier / driver', type: 'string' }),
   defineField({ name: 'trackingNote', title: 'Tracking update (customer sees this)', type: 'string', description: 'e.g. Left Lagos warehouse, arriving Thursday' }),

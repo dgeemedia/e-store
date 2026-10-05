@@ -25,6 +25,6 @@ export function SalesDashboard() {
     <div style={box}><h3>Daily sales (latest 14 days)</h3>{d.day.map(([k, v]: any) => <div key={k}>{k}: <b>{n(v)}</b></div>)}</div>
     <div style={box}><h3>Best sellers (units)</h3>{d.top.map(([k, v]: any) => <div key={k}>{k}: <b>{v}</b></div>)}</div>
     <div style={box}><h3>⚠️ Low stock</h3>{d.low.length ? d.low.map((p: any) => <div key={p.name}>{p.name}: <b>{p.stockUnits}</b> left</div>) : 'All good.'}</div>
-    <div style={box}><h3>💸 Owed to sellers (unpaid)</h3>{d.own.length ? d.own.map(([k, v]: any) => <div key={k}>{k}: <b>{n(v)}</b></div>) : 'Nothing owed.'}<br /><small>Open an order and tick "Paid to seller?" after you pay them.</small></div>
+    <div style={box}><h3>💸 Owed to sellers (pay BEFORE collecting goods)</h3>{d.own.length ? d.own.map(([k, v]: any) => <div key={k}>{k}: <b>{n(v)}</b></div>) : 'Nothing owed.'}<br /><small>Pay each seller, then open the order and tick "Paid to seller?". Collect goods only after the seller confirms payment.</small></div>
   </div>)
 }

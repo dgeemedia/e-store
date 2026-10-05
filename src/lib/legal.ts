@@ -2,7 +2,7 @@ export const LEGAL: Record<string, { title: string; sections: [string, string][]
   terms: { title: 'Terms & Conditions', sections: [
     ['About us', 'Elorge Store is operated by Elorge Technologies Limited (RC 9521453), Nigeria. By placing an order you agree to these terms.'],
     ['Products and prices', 'Prices are in Nigerian naira. Volume discounts apply automatically when your quantity qualifies. We may correct pricing errors and will tell you before shipping if an order is affected. Promotions, flash sales and lightning deals run for the stated time and while stock lasts.'],
-    ['Orders and payment', 'An order is confirmed only after payment is received. Payments are processed by Flutterwave; we never see or store your card details. Lightning-deal items are held for the time shown and released if you do not pay in time.'],
+    ['Orders and payment', 'An order is confirmed only after payment is received, and we release goods for delivery or pickup only after payment is confirmed. Payments are processed by Flutterwave; we never see or store your card details. Lightning-deal items are held for the time shown and released if you do not pay in time.'],
     ['Delivery', 'We deliver to the address you give us. Delivery fees and times are shown at checkout or on the product page and are estimates. Large or truckload orders are quoted separately.'],
     ['Warranty and returns', 'See our Returns & Warranty policy.'],
     ['Liability', 'To the extent permitted by Nigerian law, our liability is limited to the price paid for the product concerned. Nothing here limits rights you have under law.'],

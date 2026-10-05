@@ -19,7 +19,7 @@ Thank you.
 Good day [Name], thank you for your time [today / yesterday]. As discussed, I have attached our partner summary again.
 
 The next steps are:
-1. We agree the terms (fee, payment days, price changes).
+1. We agree the terms (fee, price changes, and how we pay you in full before each collection).
 2. I send you a simple sheet for your prices, product details and photos.
 3. You confirm everything in writing and we sign the agreement.
 
@@ -40,8 +40,8 @@ My name is [Your name], [your title] at Elorge Technologies Limited (RC 9521453)
 We would like [Company] to be one of our launch partners. In short:
 - Your products appear on your own brand page, with your logo, photos and the prices you approve.
 - Customers pay online first. We only act on paid orders.
-- We collect the goods from you, with your invoice and a signed delivery waybill, and we handle delivery, customer service and order tracking.
-- Terms, including our fee and your payment timing, are agreed and signed in writing before any product goes live.
+- For each order we confirm stock with you and pay you in full before we collect the goods. We collect with your invoice and a signed delivery waybill, and we handle delivery, customer service and order tracking.
+- Terms, including our fee and how quickly we pay you after your pro-forma invoice, are agreed and signed in writing before any product goes live.
 
 I have attached a one-page summary that explains how it works.
 
