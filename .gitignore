@@ -13,3 +13,6 @@ dist
 .DS_Store
 npm-debug.log*
 pnpm-debug.log*
+
+# bulk import working folder (your sheets and photos)
+import-data

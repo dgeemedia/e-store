@@ -2,13 +2,14 @@ import { NextResponse } from 'next/server'
 import { writeClient } from '@/lib/sanity'
 import { sendShippedEmail } from '@/lib/email'
 import { notify } from '@/lib/notify'
+import { sendWhatsApp } from '@/lib/whatsapp'
 /** Sanity webhook target: fires when you edit an order in Studio. Handles "shipped" emails and cancellations (restock + refund). */
 export async function POST(req: Request) {
   if (!process.env.SANITY_WEBHOOK_SECRET || new URL(req.url).searchParams.get('secret') !== process.env.SANITY_WEBHOOK_SECRET) return NextResponse.json({ error: 'forbidden' }, { status: 403 })
   const { _id } = await req.json().catch(() => ({}))
   const o: any = _id && (await writeClient.getDocument(_id))
   if (!o || o._type !== 'order') return NextResponse.json({ ok: true })
-  if (o.status === 'shipped' && !o.shippedEmailSent) { await writeClient.patch(o._id).set({ shippedEmailSent: true }).commit(); await sendShippedEmail(o) }
+  if (o.status === 'shipped' && !o.shippedEmailSent) { await writeClient.patch(o._id).set({ shippedEmailSent: true }).commit(); await sendShippedEmail(o); if (o.whatsappOptIn) await sendWhatsApp(o.phone, process.env.WA_TEMPLATE_SHIPPED || 'order_shipped', [o.name || 'there', o.reference, o.carrier || 'our delivery team']) }
   if (o.status === 'cancelled' && o.transactionId && !o.restocked) {
     await writeClient.patch(o._id).set({ restocked: true }).commit() // flag first so retries never double-restock
     for (const i of o.items || []) { const p: any = await writeClient.getDocument(i.productId); if (p) { let pt = writeClient.patch(p._id).setIfMissing({ soldUnits: 0 }).inc({ soldUnits: -i.units }); if (p.stockUnits != null) pt = pt.set({ stockUnits: p.stockUnits + i.units }); await pt.commit() } }

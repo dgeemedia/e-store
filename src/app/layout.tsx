@@ -25,7 +25,9 @@ export const revalidate = 60
 export default async function Root({ children }: { children: React.ReactNode }) {
   const s = (await getSettings()) || {}
   const socials: [string, string][] = ([['Instagram', s.instagramUrl], ['Facebook', s.facebookUrl], ['TikTok', s.tiktokUrl], ['X', s.xUrl], ['YouTube', s.youtubeUrl], ['LinkedIn', s.linkedinUrl], ['Telegram', s.telegramUrl], ['WhatsApp', s.whatsappNumber && `https://wa.me/${s.whatsappNumber}`]] as [string, string][]).filter(([, u]) => u)
-  const ld = { ...orgLd, '@graph': [{ ...orgLd['@graph'][0], sameAs: socials.filter(([l]) => l !== 'WhatsApp').map(([, u]) => u) }, orgLd['@graph'][1]] }
+  const org = { ...orgLd['@graph'][0], sameAs: socials.filter(([l]) => l !== 'WhatsApp').map(([, u]) => u), ...(s.phone || s.email ? { contactPoint: [{ '@type': 'ContactPoint', contactType: 'customer service', areaServed: 'NG', availableLanguage: 'en', ...(s.phone ? { telephone: s.phone } : {}), ...(s.email ? { email: s.email } : {}) }] } : {}) }
+  const site = { ...orgLd['@graph'][1], potentialAction: { '@type': 'SearchAction', target: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://elorgestore.org'}/?q={search_term_string}`, 'query-input': 'required name=search_term_string' } }
+  const ld = { ...orgLd, '@graph': [org, site] }
   return (
     <html lang="en"><body className={font.variable}><CartProvider>
       <Intro url={s.introVideoUrl} />
@@ -36,14 +38,14 @@ export default async function Root({ children }: { children: React.ReactNode }) 
       <header className="top"><div className="wrap hdr">
         <Link href="/" className="brandmark"><img src="/logo.png" width={38} height={38} alt="" />elorge<span style={{ color: 'var(--green)' }}>store</span></Link>
         <form action="/" method="get" className="hsearch"><input name="q" placeholder="Search products or sellers…" aria-label="Search" /><button className="btn" type="submit">Search</button></form>
-        <nav className="hnav"><Link href="/quote">Bulk orders</Link><Link href="/track">Track order</Link><CartLink /></nav>
+        <nav className="hnav"><Link href="/quote">Bulk orders</Link><Link href="/track">Track order</Link><Link href="/account">Account</Link><CartLink /></nav>
       </div></header>
       <PWA />
       {children}
       <footer><div className="wrap">
         <div className="fgrid">
           <div><div className="brandmark"><img src="/logo.png" width={34} height={34} alt="" />elorge<span style={{ color: 'var(--green)' }}>store</span></div><p>Factory-direct, Opor! Shikini money. The more you buy, the cheaper you pay.</p></div>
-          <div><h4>Shop</h4><Link href="/#shop">All products</Link><Link href="/quote">Bulk &amp; truckload orders</Link><Link href="/track">Track my order</Link><Link href="/cart">Cart</Link><Link href="/sell">Sell on Elorge</Link></div>
+          <div><h4>Shop</h4><Link href="/#shop">All products</Link><Link href="/quote">Bulk &amp; truckload orders</Link><Link href="/track">Track my order</Link><Link href="/cart">Cart</Link><Link href="/sell">Sell on Elorge</Link><Link href="/logistics">Deliver for Elorge</Link><Link href="/account">My account</Link></div>
           <div><h4>Contact</h4>{s.phone && <span>{s.phone}</span>}{s.email && <a href={`mailto:${s.email}`}>{s.email}</a>}{s.whatsappNumber && <a href={`https://wa.me/${s.whatsappNumber}`}>WhatsApp us</a>}{s.address && <span>{s.address}</span>}{socials.length > 0 && <><h4 style={{ marginTop: 16 }}>Follow us</h4><div className="social">{socials.map(([l, u]) => <a key={l} href={u} target="_blank" rel="noopener noreferrer">{l}</a>)}</div></>}</div>
           <div><h4>Why Elorge</h4><span>Factory-direct prices</span><span>Invoiced &amp; documented supply</span><span>Warranty on products</span><span>Secure payments</span></div>
         </div>

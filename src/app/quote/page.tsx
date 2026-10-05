@@ -13,7 +13,7 @@ export default function Quote() {
     <h1 style={{ letterSpacing: '-.03em' }}>Bulk &amp; truckload orders</h1>
     <p style={{ color: 'var(--mute)' }}>Wholesalers, retailers, projects and institutions: tell us what you need and get our best factory price. Large orders come with a factory invoice, full delivery documents and truck delivery.</p>
     <div className="f"><input placeholder="Your name *" onChange={set('name')} /><input placeholder="Company / shop" onChange={set('company')} /><input placeholder="Phone / WhatsApp *" onChange={set('phone')} /><input placeholder="Email" onChange={set('email')} /><input placeholder="Delivery location (city, state)" onChange={set('location')} />
-      <input placeholder="What do you need? e.g. Solar street lights, 200 units *" onChange={set('items')} /><input placeholder="Quantity / budget" onChange={set('quantity')} /><input placeholder="Anything else?" onChange={set('notes')} />
+      <input placeholder="What do you need? e.g. Solar street lights, 200 units *" onChange={set('items')} /><input placeholder="Vehicle needed, if you know (van, bus, truck, trailer)" onChange={set('vehicle')} /><input placeholder="Quantity / budget" onChange={set('quantity')} /><input placeholder="Anything else?" onChange={set('notes')} />
       <input name="website" tabIndex={-1} autoComplete="off" style={{ position: 'absolute', left: '-9999px' }} onChange={set('website')} /></div>
     {err && <p className="err">{err}</p>}<button className="btn green" disabled={state === 'busy'} onClick={send}>{state === 'busy' ? 'Sending…' : 'Request my quote'}</button>
   </div>)

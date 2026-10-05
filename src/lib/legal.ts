@@ -9,11 +9,11 @@ export const LEGAL: Record<string, { title: string; sections: [string, string][]
     ['Governing law', 'These terms are governed by the laws of the Federal Republic of Nigeria.'],
   ] },
   privacy: { title: 'Privacy Policy', sections: [
-    ['What we collect', 'Name, phone, email, delivery address and order details when you buy, request a quote or apply to sell; messages you send through our live chat; and, with your consent, anonymous site usage data.'],
+    ['What we collect', 'Name, phone, email, delivery address and order details when you buy, request a quote, apply to sell or apply to deliver; messages you send through our live chat; account details and saved addresses if you create an account; and, with your consent, anonymous site usage data.'],
     ['Why we use it', 'To process and deliver orders, send receipts and shipping updates, provide support, prevent fraud and meet legal obligations.'],
-    ['Who we share it with', 'Service providers that help us run the store: Flutterwave (payments), Resend (email), Sanity (our database), Vercel (hosting), Telegram (live chat) and delivery partners. We do not sell your data.'],
+    ['Who we share it with', 'Service providers that help us run the store: Flutterwave (payments), Resend (email), Sanity (our database), Vercel (hosting), Telegram (live chat), Meta WhatsApp (order updates you opt into), Brevo (email) and delivery partners. We do not sell your data.'],
     ['Cookies and analytics', 'Analytics cookies load only after you accept. You can decline and still use the whole site.'],
-    ['Your rights', 'Under the Nigeria Data Protection Act 2023 you may ask to access, correct or delete your data, or object to its use. Contact us using the details in the footer.'],
+    ['Your rights', 'Under the Nigeria Data Protection Act 2023 you may ask to access, correct or delete your data, or object to its use. You can delete your saved account data yourself from the My account page, or contact us using the details in the footer.'],
     ['Retention', 'We keep order records as long as needed for accounting, warranty and legal reasons.'],
   ] },
   returns: { title: 'Returns & Warranty', sections: [

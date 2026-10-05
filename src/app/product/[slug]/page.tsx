@@ -24,12 +24,14 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
   const related = withPromo(relatedRaw, promo)
   const avg = reviews.length ? reviews.reduce((s: number, r: any) => s + r.rating, 0) / reviews.length : 0
   const imgs = p.images.map((i: any) => ({ big: urlFor(i).width(900).url(), thumb: urlFor(i).width(120).height(120).url() }))
-  const ld = { '@context': 'https://schema.org', '@type': 'Product', name: p.name, image: imgs.map((i: any) => i.big), description: p.description, category: p.category, ...(p.brand?.name ? { brand: { '@type': 'Brand', name: p.brand.name } } : {}),
+  const ld = { '@context': 'https://schema.org', '@type': 'Product', sku: slug, url: `${SITE}/product/${slug}`, name: p.name, image: imgs.map((i: any) => i.big), description: p.description, category: p.category, ...(p.brand?.name ? { brand: { '@type': 'Brand', name: p.brand.name } } : {}),
     ...(reviews.length ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: avg.toFixed(1), reviewCount: reviews.length } } : {}),
     offers: { '@type': 'Offer', url: `${SITE}/product/${slug}`, priceCurrency: 'NGN', price: p.promoUnitPrice ?? p.unitPrice, availability: p.stockUnits === 0 ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock' } }
+  const crumbs = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ name: 'Home', url: SITE }, ...(p.category ? [{ name: p.category, url: `${SITE}/?q=${encodeURIComponent(p.category)}` }] : []), { name: p.name, url: `${SITE}/product/${slug}` }].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.url })) }
   return (<>
     <div className="wrap pdp">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
       <Gallery imgs={imgs} alt={p.name} />
       <div><small>{p.brand?.name} · {p.category}</small><h1 style={{ margin: '6px 0 8px', letterSpacing: '-.03em' }}>{p.name}</h1>
         {!!reviews.length && <div style={{ color: '#e6a100', marginBottom: 6 }}>{'★'.repeat(Math.round(avg))}{'☆'.repeat(5 - Math.round(avg))} <small style={{ color: 'var(--mute)' }}>{avg.toFixed(1)} ({reviews.length})</small></div>}

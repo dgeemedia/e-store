@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getProducts, getActivePromo, getBrands, getSettings, getLightning, withPromo, urlFor } from '@/lib/sanity'
+import { client, getProducts, getActivePromo, getBrands, getSettings, getLightning, withPromo, urlFor } from '@/lib/sanity'
 import ProductCard from '@/components/ProductCard'
 import Shop from '@/components/Shop'
 import Countdown from '@/components/Countdown'
@@ -10,6 +10,8 @@ export const revalidate = 30
 export default async function Home() {
   const [products, promo, brands, s, deal] = await Promise.all([getProducts(), getActivePromo(), getBrands(), getSettings(), getLightning()])
   const list = withPromo(products, promo)
+  const server = !!s?.features?.serverSearch
+  const facets = server ? await client.fetch(`{"cats": array::unique(*[_type=="product" && active!=false && defined(category)].category), "brands": array::unique(*[_type=="product" && active!=false && defined(brand)].brand->name)}`) : undefined
   const onSale = list.filter((p: any) => p.promoUnitPrice || p.promoDozenPrice)
   const welcome = list.slice(0, 24).map((p: any) => ({ slug: p.slug, name: p.name, price: p.promoUnitPrice ?? p.unitPrice, sale: !!p.promoUnitPrice, img: urlFor(p.images[0]).width(420).height(420).url() }))
   const dealProp = deal && { id: deal._id, title: deal.title, price: deal.dealPrice, endsAt: deal.endsAt, left: deal.left, hold: deal.holdMinutes || 5, product: { name: deal.product.name, slug: deal.product.slug, was: deal.product.unitPrice, img: urlFor(deal.product.images[0]).width(600).height(600).url() } }
@@ -21,7 +23,7 @@ export default async function Home() {
       {dealProp && <LightningCard deal={dealProp} />}
       {promo && (<section className="flash"><div><h2>{promo.title}</h2><div>Ends in</div></div><Countdown endsAt={promo.endsAt} /></section>)}
       {!!onSale.length && <><h3 className="sec" id="sale" style={{ marginTop: 8 }}>{promo?.title || 'Deals'}</h3><div className="strip">{onSale.map((p: any) => <div key={p._id} style={{ flex: '0 0 190px' }}><ProductCard p={p} /></div>)}</div></>}
-      <div id="shop" style={{ marginTop: 18 }}><Shop products={list} /></div>
+      <div id="shop" style={{ marginTop: 18 }}><Shop products={list} server={server} facets={facets} /></div>
       {!list.length && <p>Add your first product in <a href="/studio"><u>/studio</u></a>.</p>}
       <h3 className="sec">Who we serve</h3>
       <section className="aud">
