@@ -3,6 +3,7 @@ import { randomBytes } from 'crypto'
 import { getSettings, writeClient } from '@/lib/sanity'
 import { deliveryFee } from '@/lib/shipping'
 import { normPhone } from '@/lib/customer'
+import { normLang } from '@/lib/tserver'
 const bad = (m: string, status = 400) => NextResponse.json({ error: m }, { status })
 const rnd = (n: number) => randomBytes(n).toString('hex')
 export async function POST(req: Request) {
@@ -45,7 +46,7 @@ async function pay(b: any) {
   const total = deal.dealPrice + fee
   const code = `${String(deal.codePrefix || 'LNG').toUpperCase().slice(0, 6)}-${rnd(3).toUpperCase()}`
   const ref = `elg_${Date.now()}_${rnd(2)}`
-  await writeClient.createIfNotExists({ _id: `order-${ref}`, _type: 'order', reference: ref, viewKey: rnd(12), phoneNorm: normPhone(b.phone), status: 'pending', name: b.name, email: b.email, phone: b.phone, address: pickup ? 'PICKUP' : b.address, state: b.state || '', delivery: pickup ? 'pickup' : 'delivery', deliveryFee: fee, total, promoCode: code, promoTitle: deal.title, claimId: c._id, createdAt: new Date().toISOString(),
+  await writeClient.createIfNotExists({ _id: `order-${ref}`, _type: 'order', reference: ref, viewKey: rnd(12), phoneNorm: normPhone(b.phone), lang: normLang(b.lang), status: 'pending', name: b.name, email: b.email, phone: b.phone, address: pickup ? 'PICKUP' : b.address, state: b.state || '', delivery: pickup ? 'pickup' : 'delivery', deliveryFee: fee, total, promoCode: code, promoTitle: deal.title, claimId: c._id, createdAt: new Date().toISOString(),
     items: [{ _key: `${deal.p._id}-unit`, productId: deal.p._id, productName: deal.p.name, mode: 'unit', quantity: 1, price: deal.dealPrice, units: 1 }] })
   await writeClient.patch(c._id).set({ orderId: `order-${ref}`, expiresAt: new Date(Date.now() + 15 * 6e4).toISOString() }).commit() // extra time to finish paying
   const res = await fetch('https://api.flutterwave.com/v3/payments', { method: 'POST', headers: { Authorization: `Bearer ${process.env.FLUTTERWAVE_SECRET_KEY}`, 'Content-Type': 'application/json' },

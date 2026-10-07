@@ -4,6 +4,7 @@ import { writeClient } from '@/lib/sanity'
 import { sendSms } from '@/lib/sms'
 import { getFeatures } from '@/lib/features'
 import { hash, normPhone } from '@/lib/customer'
+import { ts, normLang } from '@/lib/tserver'
 export async function POST(req: Request) {
   if (!(await getFeatures()).phoneLogin) return NextResponse.json({ error: 'Phone login is coming soon. Please use email or Google for now.' }, { status: 503 })
   const b = await req.json().catch(() => ({})), phone = normPhone(String(b.phone || ''))
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
   if (hourly >= 100) return NextResponse.json({ error: 'Too many requests right now. Please try again later or use email.' }, { status: 429 })
   const code = String(randomInt(100000, 1000000))
   await writeClient.createOrReplace({ _id: id, _type: 'loginCode', kind: 'phone', codeHash: hash(code + phone + process.env.AUTH_SECRET), createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 10 * 60000).toISOString(), tries: 0 })
-  const sent = await sendSms(phone, `Your Elorge Store login code is ${code}. It expires in 10 minutes.`)
+  const sent = await sendSms(phone, ts(normLang(b.lang), 'em.sms', { code }))
   if (!sent) return NextResponse.json({ error: 'We could not send the SMS right now. Please use email or Google.' }, { status: 503 })
   return NextResponse.json({ ok: true })
 }

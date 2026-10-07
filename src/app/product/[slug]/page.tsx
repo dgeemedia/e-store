@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { PortableText } from '@portabletext/react'
 import { getProduct, getActivePromo, withPromo, urlFor, getReviews, getRelated } from '@/lib/sanity'
 import BuyBox from '@/components/BuyBox'
+import { T, L } from '@/lib/i18n'
 import Gallery from '@/components/Gallery'
 import Share from '@/components/Share'
 import ReviewForm from '@/components/ReviewForm'
@@ -33,20 +34,20 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
       <Gallery imgs={imgs} alt={p.name} />
-      <div><small>{p.brand?.name} · {p.category}</small><h1 style={{ margin: '6px 0 8px', letterSpacing: '-.03em' }}>{p.name}</h1>
+      <div><small>{p.brand?.name} · {p.category}</small><h1 style={{ margin: '6px 0 8px', letterSpacing: '-.03em' }}><L en={p.name} zh={p.nameZh} fr={p.nameFr} /></h1>
         {!!reviews.length && <div style={{ color: '#e6a100', marginBottom: 6 }}>{'★'.repeat(Math.round(avg))}{'☆'.repeat(5 - Math.round(avg))} <small style={{ color: 'var(--mute)' }}>{avg.toFixed(1)} ({reviews.length})</small></div>}
-        <p style={{ color: 'var(--mute)' }}>{p.description}</p>
+        <p style={{ color: 'var(--mute)' }}><L en={p.description} zh={p.descriptionZh} fr={p.descriptionFr} /></p>
         <BuyBox p={p} image={urlFor(p.images[0]).width(120).height(120).url()} />
         <div style={{ marginTop: 14 }}><Share title={p.name} /></div></div>
     </div>
     <div className="wrap" style={{ maxWidth: 860 }}>
-      {!!p.body?.length && <section className="prose"><h3>About this product</h3><PortableText value={p.body} /></section>}
-      {!!p.specs?.length && <section><h3>Specifications</h3><table className="specs"><tbody>{p.specs.map((s: any, i: number) => <tr key={i}><th>{s.label}</th><td>{s.value}</td></tr>)}</tbody></table></section>}
-      <section><h3>Customer reviews</h3>
+      {!!p.body?.length && <section className="prose"><h3><T k="pp.about" /></h3><PortableText value={p.body} /></section>}
+      {!!p.specs?.length && <section><h3><T k="pp.specs" /></h3><table className="specs"><tbody>{p.specs.map((s: any, i: number) => <tr key={i}><th>{s.label}</th><td>{s.value}</td></tr>)}</tbody></table></section>}
+      <section><h3><T k="pp.reviews" /></h3>
         {reviews.map((r: any, i: number) => <div key={i} className="review"><span style={{ color: '#e6a100' }}>{'★'.repeat(r.rating)}</span> <b>{r.name}</b><p style={{ margin: '4px 0' }}>{r.comment}</p></div>)}
-        {!reviews.length && <p style={{ color: 'var(--mute)' }}>No reviews yet. Be the first!</p>}
+        {!reviews.length && <p style={{ color: 'var(--mute)' }}><T k="pp.noRev" /></p>}
         <ReviewForm productId={p._id} /></section>
     </div>
-    {!!related.length && <div className="wrap"><h3 className="sec">You may also like</h3><div className="grid">{related.map((r: any) => <ProductCard key={r._id} p={r} />)}</div></div>}
+    {!!related.length && <div className="wrap"><h3 className="sec"><T k="pp.also" /></h3><div className="grid">{related.map((r: any) => <ProductCard key={r._id} p={r} />)}</div></div>}
   </>)
 }

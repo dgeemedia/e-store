@@ -1,4 +1,4 @@
-seller,name,category,short_description,full_description,unit_price,pack_price,pack_size,pack_label,volume_tiers,warranty_months,dispatch_time,weight_kg,stock,options,specs,images,featured,active
+seller,name,category,short_description,full_description,unit_price,pack_price,pack_size,pack_label,volume_tiers,warranty_months,dispatch_time,weight_kg,stock,options,specs,images,featured,active,name_zh,name_fr,short_description_zh,short_description_fr
 EXAMPLE Solar Ltd,EXAMPLE 60W Solar Street Light,Solar & Lighting,All-in-one solar street light with motion sensor.,"Paragraph one about the product.
-Paragraph two about the product.",45000,,,,12:42000;100:39000,12,Ships in 2-3 days,8,200,Colour=Black|Silver,Power=60W;Battery=12 hours;Warranty=12 months,example-light-1.jpg;example-light-2.jpg,yes,yes
-EXAMPLE Solar Ltd,EXAMPLE LED Bulb 12W,Solar & Lighting,Rechargeable LED bulb.,,1500,16000,12,dozen,50:1200,6,Ships in 24 hours,0.2,,,,https://example.com/photo.jpg,no,yes
+Paragraph two about the product.",45000,,,,12:42000;100:39000,12,Ships in 2-3 days,8,200,Colour=Black|Silver,Power=60W;Battery=12 hours;Warranty=12 months,example-light-1.jpg;example-light-2.jpg,yes,yes,示例 60W 太阳能路灯,Lampadaire solaire EXEMPLE 60 W,一体化太阳能路灯，带感应功能。,Lampadaire solaire tout-en-un avec détecteur de mouvement.
+EXAMPLE Solar Ltd,EXAMPLE LED Bulb 12W,Solar & Lighting,Rechargeable LED bulb.,,1500,16000,12,dozen,50:1200,6,Ships in 24 hours,0.2,,,,https://example.com/photo.jpg,no,yes,,,,

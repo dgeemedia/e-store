@@ -8,6 +8,9 @@ import Intro from '@/components/Intro'
 import PWA from '@/components/PWA'
 import Analytics from '@/components/Analytics'
 import ChatWidget from '@/components/ChatWidget'
+import HeaderSearch from '@/components/HeaderSearch'
+import LangSwitcher from '@/components/LangSwitcher'
+import { LangProvider, T } from '@/lib/i18n'
 const font = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font' })
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://elorgestore.org'
 export const metadata = {
@@ -29,7 +32,7 @@ export default async function Root({ children }: { children: React.ReactNode }) 
   const site = { ...orgLd['@graph'][1], potentialAction: { '@type': 'SearchAction', target: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://elorgestore.org'}/?q={search_term_string}`, 'query-input': 'required name=search_term_string' } }
   const ld = { ...orgLd, '@graph': [org, site] }
   return (
-    <html lang="en"><body className={font.variable}><CartProvider>
+    <html lang="en"><body className={font.variable}><CartProvider><LangProvider>
       <Intro url={s.introVideoUrl} />
       <Analytics />
       <ChatWidget />
@@ -37,20 +40,20 @@ export default async function Root({ children }: { children: React.ReactNode }) 
       {s.announcement && <div className="bar">{s.announcement}</div>}
       <header className="top"><div className="wrap hdr">
         <Link href="/" className="brandmark"><img src="/logo.png" width={38} height={38} alt="" />elorge<span style={{ color: 'var(--green)' }}>store</span></Link>
-        <form action="/" method="get" className="hsearch"><input name="q" placeholder="Search products or sellers…" aria-label="Search" /><button className="btn" type="submit">Search</button></form>
-        <nav className="hnav"><Link href="/quote">Bulk orders</Link><Link href="/track">Track order</Link><Link href="/account">Account</Link><CartLink /></nav>
+        <HeaderSearch />
+        <nav className="hnav"><Link href="/quote"><T k="nav.bulk" /></Link><Link href="/track"><T k="nav.track" /></Link><Link href="/account"><T k="nav.account" /></Link><LangSwitcher /><CartLink /></nav>
       </div></header>
       <PWA />
       {children}
       <footer><div className="wrap">
         <div className="fgrid">
-          <div><div className="brandmark"><img src="/logo.png" width={34} height={34} alt="" />elorge<span style={{ color: 'var(--green)' }}>store</span></div><p>Factory-direct, Opor! Shikini money. The more you buy, the cheaper you pay.</p></div>
-          <div><h4>Shop</h4><Link href="/#shop">All products</Link><Link href="/quote">Bulk &amp; truckload orders</Link><Link href="/track">Track my order</Link><Link href="/cart">Cart</Link><Link href="/sell">Sell on Elorge</Link><Link href="/logistics">Deliver for Elorge</Link><Link href="/account">My account</Link></div>
-          <div><h4>Contact</h4>{s.phone && <span>{s.phone}</span>}{s.email && <a href={`mailto:${s.email}`}>{s.email}</a>}{s.whatsappNumber && <a href={`https://wa.me/${s.whatsappNumber}`}>WhatsApp us</a>}{s.address && <span>{s.address}</span>}{socials.length > 0 && <><h4 style={{ marginTop: 16 }}>Follow us</h4><div className="social">{socials.map(([l, u]) => <a key={l} href={u} target="_blank" rel="noopener noreferrer">{l}</a>)}</div></>}</div>
-          <div><h4>Why Elorge</h4><span>Factory-direct prices</span><span>Invoiced &amp; documented supply</span><span>Warranty on products</span><span>Secure payments</span></div>
+          <div><div className="brandmark"><img src="/logo.png" width={34} height={34} alt="" />elorge<span style={{ color: 'var(--green)' }}>store</span></div><p><T k="f.tag" /></p></div>
+          <div><h4><T k="f.shop" /></h4><Link href="/#shop"><T k="f.all" /></Link><Link href="/quote"><T k="f.bulk" /></Link><Link href="/track"><T k="f.track" /></Link><Link href="/cart"><T k="f.cart" /></Link><Link href="/sell"><T k="f.sell" /></Link><Link href="/logistics"><T k="f.deliver" /></Link><Link href="/account"><T k="f.account" /></Link></div>
+          <div><h4><T k="f.contact" /></h4>{s.phone && <span>{s.phone}</span>}{s.email && <a href={`mailto:${s.email}`}>{s.email}</a>}{s.whatsappNumber && <a href={`https://wa.me/${s.whatsappNumber}`}><T k="f.whatsapp" /></a>}{s.address && <span>{s.address}</span>}{socials.length > 0 && <><h4 style={{ marginTop: 16 }}><T k="f.follow" /></h4><div className="social">{socials.map(([l, u]) => <a key={l} href={u} target="_blank" rel="noopener noreferrer">{l}</a>)}</div></>}</div>
+          <div><h4><T k="f.why" /></h4><span><T k="f.why1" /></span><span><T k="f.why2" /></span><span><T k="f.why3" /></span><span><T k="f.why4" /></span></div>
         </div>
-        <div className="fbase">© {Math.max(2026, new Date().getFullYear())} Elorge Technologies Limited · RC 9521453 · All rights reserved. · <Link href="/legal/terms">Terms</Link> · <Link href="/legal/privacy">Privacy</Link> · <Link href="/legal/returns">Returns &amp; Warranty</Link></div>
+        <div className="fbase">© {Math.max(2026, new Date().getFullYear())} Elorge Technologies Limited · RC 9521453 · <T k="f.rights" /> · <Link href="/legal/terms"><T k="f.terms" /></Link> · <Link href="/legal/privacy"><T k="f.privacy" /></Link> · <Link href="/legal/returns"><T k="f.returns" /></Link></div>
       </div></footer>
-    </CartProvider></body></html>
+    </LangProvider></CartProvider></body></html>
   )
 }

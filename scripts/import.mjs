@@ -97,7 +97,7 @@ async function products(file) {
     if (!DRY && !sellerIds.has(slug(r.seller)) && !(await client.getDocument(sid))) { await client.createIfNotExists({ _id: sid, _type: 'brand', name: r.seller, slug: { _type: 'slug', current: slug(r.seller) }, sellerType: 'Manufacturer', commissionPercent: 0 }); console.log(`  (created minimal seller "${r.seller}"; complete its details in Studio)`) }
     sellerIds.set(slug(r.seller), sid)
     const id = `product-${slug(r.seller)}-${slug(r.name)}`.slice(0, 100)
-    const fields = clean({ _type: 'product', name: r.name, slug: { _type: 'slug', current: slug(`${r.name}`) }, brand: { _type: 'reference', _ref: sid }, category: r.category || 'Other', description: r.short_description, body: blocks(r.full_description),
+    const fields = clean({ _type: 'product', name: r.name, slug: { _type: 'slug', current: slug(`${r.name}`) }, brand: { _type: 'reference', _ref: sid }, category: r.category || 'Other', description: r.short_description, nameZh: r.name_zh, nameFr: r.name_fr, descriptionZh: r.short_description_zh, descriptionFr: r.short_description_fr, body: blocks(r.full_description),
       unitPrice: price, dozenPrice: pack, packSize: size ?? (pack ? 12 : undefined), packLabel: r.pack_label || (pack ? 'dozen' : undefined), tiers, warrantyMonths: warranty, dispatchTime: r.dispatch_time || 'Ships in 2-3 days', weightKg: weight, stockUnits: stock, options, specs, active: yes(r.active, true), featured: yes(r.featured, false) })
     try { console.log(`  ${r.name}: ${await doc(id, fields, imgs)}`) } catch (e) { err('product', n, e.message) }
   }

@@ -21,6 +21,10 @@ const product = defineType({ name: 'product', title: 'Product', type: 'document'
   defineField({ name: 'category', type: 'string', options: { list: ['Solar & Lighting', 'Fans & Cooling', 'Baby Care', 'Home & Kitchen', 'Personal Care', 'Farm Produce', 'Food & Grocery', 'Building & Hardware', 'Electronics', 'Fashion', 'Other'] } }),
   defineField({ name: 'images', type: 'array', of: [{ type: 'image', options: { hotspot: true } }], validation: (r: any) => r.required().min(1) }),
   defineField({ name: 'description', title: 'Short description', type: 'text', description: 'One or two sentences. Shown in search results and under the title.' }),
+  defineField({ name: 'nameZh', title: 'Name in Chinese (optional)', type: 'string', description: 'Shown to visitors using the Chinese site. Empty = English name.' }),
+  defineField({ name: 'nameFr', title: 'Name in French (optional)', type: 'string' }),
+  defineField({ name: 'descriptionZh', title: 'Short description in Chinese (optional)', type: 'text' }),
+  defineField({ name: 'descriptionFr', title: 'Short description in French (optional)', type: 'text' }),
   defineField({ name: 'body', title: 'Full description (formatted)', type: 'array', of: [{ type: 'block' }], description: 'Headings, bullet points and bold text are supported.' }),
   defineField({ name: 'specs', title: 'Specifications', type: 'array', of: [{ type: 'object', name: 'spec', fields: [{ name: 'label', type: 'string' }, { name: 'value', type: 'string' }], preview: { select: { title: 'label', subtitle: 'value' } } }], description: 'e.g. Power = 60W, Battery = 12 hours' }),
   defineField({ name: 'options', title: 'Options (colour, size...)', type: 'array', of: [{ type: 'object', name: 'optionGroup', fields: [{ name: 'name', type: 'string', validation: req, description: 'e.g. Colour' }, { name: 'values', type: 'array', of: [{ type: 'string' }], options: { layout: 'tags' }, validation: req }], preview: { select: { title: 'name', subtitle: 'values' }, prepare: ({ title, subtitle }: any) => ({ title, subtitle: (subtitle || []).join(', ') }) } }], description: 'Buyer must choose one value per option. Same price for every choice.' }),
@@ -53,7 +57,7 @@ const promo = defineType({ name: 'promo', title: 'Flash Sale / Promo', type: 'do
 ], preview: { select: { title: 'title', subtitle: 'endsAt' } } })
 
 const order = defineType({ name: 'order', title: 'Order', type: 'document', fields: ([
-  'reference', 'name', 'email', 'phone', 'address', 'state', 'notes', 'transactionId', 'promoCode', 'promoTitle', 'claimId', 'couponCode', 'viewKey', 'country', 'phoneNorm', 'logisticsPartner', 'logisticsPartnerId', 'logisticsKind', 'logisticsZone', 'deliveryArea', 'etaText',
+  'reference', 'name', 'email', 'phone', 'address', 'state', 'notes', 'transactionId', 'promoCode', 'promoTitle', 'claimId', 'couponCode', 'viewKey', 'lang', 'country', 'phoneNorm', 'logisticsPartner', 'logisticsPartnerId', 'logisticsKind', 'logisticsZone', 'deliveryArea', 'etaText',
 ].map((n) => defineField({ name: n, type: 'string', readOnly: true })) as any[]).concat([
   defineField({ name: 'status', type: 'string', options: { list: ['pending', 'paid', 'shipped', 'delivered', 'cancelled'] } }),
   defineField({ name: 'delivery', type: 'string', options: { list: ['delivery', 'pickup'] } }),

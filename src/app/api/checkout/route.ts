@@ -5,6 +5,7 @@ import { couponDiscount } from '@/lib/coupon'
 import { deliveryFee, partnerQuote } from '@/lib/shipping'
 import { client, getSettings, writeClient } from '@/lib/sanity'
 import { normPhone } from '@/lib/customer'
+import { normLang } from '@/lib/tserver'
 export async function POST(req: Request) {
   try {
     const b = await req.json()
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
     const ref = `elg_${Date.now()}_${randomBytes(3).toString('hex')}`
     await writeClient.createIfNotExists({
       _id: `order-${ref}`, _type: 'order', reference: ref, viewKey: randomBytes(12).toString('hex'), status: 'pending', name: b.name, email: String(b.email).trim(), phone: b.phone,
-      address: pickup ? 'PICKUP' : b.address || '', state: b.state || '', delivery: pickup ? 'pickup' : 'delivery', whatsappOptIn: !!b.whatsapp, ...logi, country, phoneNorm: normPhone(b.phone),
+      address: pickup ? 'PICKUP' : b.address || '', state: b.state || '', delivery: pickup ? 'pickup' : 'delivery', whatsappOptIn: !!b.whatsapp, ...logi, country, phoneNorm: normPhone(b.phone), lang: normLang(b.lang),
       deliveryFee: fee, discount, couponCode: cp?.code || '', total, payCurrency, payAmount, items, createdAt: new Date().toISOString(),
     })
     const res = await fetch('https://api.flutterwave.com/v3/payments', {
