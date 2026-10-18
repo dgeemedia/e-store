@@ -1,3 +1,4 @@
+import AudArt from '@/components/AudArt'
 import Link from 'next/link'
 import { client, getProducts, getActivePromo, getBrands, getSettings, getLightning, withPromo, urlFor } from '@/lib/sanity'
 import ProductCard from '@/components/ProductCard'
@@ -28,9 +29,9 @@ export default async function Home() {
       {!list.length && <p>Add your first product in <a href="/studio"><u>/studio</u></a>.</p>}
       <h3 className="sec"><T k="h.serve" /></h3>
       <section className="aud">
-        {[[s?.wholesalerImage, 'h.whole', 'h.wholeD', '/quote', 'h.quoteCta'], [s?.retailerImage, 'h.retail', 'h.retailD', '#shop', 'h.packCta'], [s?.consumerImage, 'h.every', 'h.everyD', '#shop', 'h.shopNow']].map(([img, tk, dk, href, ck]: any) => (
+        {[[s?.wholesalerImage, 'h.whole', 'h.wholeD', '/quote', 'h.quoteCta', 'wholesale'], [s?.retailerImage, 'h.retail', 'h.retailD', '#shop', 'h.packCta', 'retail'], [s?.consumerImage, 'h.every', 'h.everyD', '#shop', 'h.shopNow', 'buyer']].map(([img, tk, dk, href, ck, kind]: any) => (
           <a key={tk} href={href} className="card aud-card">
-            <div className="aud-img" style={img ? undefined : { background: 'linear-gradient(135deg,var(--blue),var(--green))' }}>{img && <img src={urlFor(img).width(700).height(460).url()} alt="" loading="lazy" />}</div>
+            <div className="aud-img">{img ? <img src={urlFor(img).width(700).height(460).url()} alt="" loading="lazy" /> : <AudArt kind={kind} />}</div>
             <div className="in"><h3 style={{ margin: '0 0 6px' }}><T k={tk} /></h3><small><T k={dk} /></small><div style={{ marginTop: 10, color: 'var(--blue)', fontWeight: 700 }}><T k={ck} /> →</div></div>
           </a>))}
       </section>

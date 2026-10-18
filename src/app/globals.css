@@ -123,3 +123,30 @@ h1{font-size:clamp(22px,3vw,30px);line-height:1.2}h2{font-size:20px}h3{font-size
   .hero{padding:22px 0 16px}
 }
 @media(min-width:761px){.gal-dots{display:none}}
+
+/* ---- animated "Who we serve" illustrations ---- */
+.aud-img .av{width:100%;height:100%;display:block}
+.av *{transform-box:fill-box}
+.av-truck{animation:av-drive 7s ease-in-out infinite}
+@keyframes av-drive{0%{transform:translateX(-110px)}40%,58%{transform:translateX(168px)}100%{transform:translateX(340px)}}
+.av-spin{animation:av-spin .8s linear infinite;transform-box:view-box}
+@keyframes av-spin{to{transform:rotate(360deg)}}
+.av-pop{animation:av-pop 3s ease-out infinite;transform-origin:center bottom}
+@keyframes av-pop{0%{transform:scale(0)}15%,85%{transform:scale(1)}100%{transform:scale(1)}}
+.av-bob{animation:av-bob 2.2s ease-in-out infinite}
+@keyframes av-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.av-walk{animation:av-walk 8s linear infinite}
+@keyframes av-walk{0%{transform:translateX(-30px)}100%{transform:translateX(330px)}}
+.av-glow{animation:av-glow 2.4s ease-in-out infinite}
+@keyframes av-glow{0%,100%{opacity:.55}50%{opacity:1}}
+.av-sun{animation:av-glow 4s ease-in-out infinite}
+.av-pulse{animation:av-pulse 1.6s ease-in-out infinite;transform-origin:center}
+@keyframes av-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.av-btn{animation:av-glow 1.6s ease-in-out infinite}
+.av-check{animation:av-check 3.2s ease-in-out infinite;transform-origin:center}
+@keyframes av-check{0%,45%{transform:scale(0)}60%{transform:scale(1.25)}72%,100%{transform:scale(1)}}
+.av-drop{animation:av-drop 2.6s ease-in infinite}.av-drop.d2{animation-delay:1.3s}
+@keyframes av-drop{0%{transform:translateY(0);opacity:1}70%{transform:translateY(86px);opacity:1}71%,100%{transform:translateY(86px);opacity:0}}
+.av-bag{animation:av-bag 2.6s ease-in-out infinite;transform-origin:center bottom}
+@keyframes av-bag{0%,60%,100%{transform:scale(1)}68%{transform:scale(1.07,.94)}78%{transform:scale(.97,1.04)}}
+@media(prefers-reduced-motion:reduce){.av *{animation:none!important}.av-truck{transform:translateX(168px)}.av-walk{transform:translateX(150px)}}
