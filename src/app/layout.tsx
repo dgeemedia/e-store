@@ -21,8 +21,8 @@ export const metadata = {
   description: 'Factory-direct prices in Nigeria with warranty. Buy one, by the dozen or by the truckload: the more you buy, the cheaper you pay. For wholesalers, retailers and everyday buyers.',
   keywords: ['factory direct Nigeria', 'wholesale prices Nigeria', 'buy in bulk Nigeria', 'cheap solar street light Nigeria', 'diapers wholesale Nigeria', 'solar fan price Nigeria', 'bulk order truckload Nigeria'],
   alternates: { canonical: '/' },
-  openGraph: { type: 'website', siteName: 'Elorge Store', locale: 'en_NG', url: SITE, title: 'Elorge Store | Factory-direct, Opor! Shikini money', description: 'Factory-direct prices with warranty. The more you buy, the cheaper you pay.', images: ['/icon-512.png'] },
-  twitter: { card: 'summary', title: 'Elorge Store', description: 'Factory-direct prices with warranty. The more you buy, the cheaper you pay.', images: ['/icon-512.png'] },
+  openGraph: { type: 'website', siteName: 'Elorge Store', locale: 'en_NG', url: SITE, title: 'Elorge Store | Factory-direct, Opor! Shikini money', description: 'Factory-direct prices with warranty. The more you buy, the cheaper you pay.', images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Elorge Store: Factory-direct, Opor! Shikini money' }] },
+  twitter: { card: 'summary_large_image', title: 'Elorge Store', description: 'Factory-direct prices with warranty. The more you buy, the cheaper you pay.', images: ['/og.png'] },
 }
 const orgLd = { '@context': 'https://schema.org', '@graph': [{ '@type': 'Organization', name: 'Elorge Store', legalName: 'Elorge Technologies Limited', url: SITE, logo: `${SITE}/icon-512.png` }, { '@type': 'WebSite', name: 'Elorge Store', url: SITE }] }
 export const viewport = { themeColor: '#0056b6' }
