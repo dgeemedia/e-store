@@ -150,3 +150,23 @@ h1{font-size:clamp(22px,3vw,30px);line-height:1.2}h2{font-size:20px}h3{font-size
 .av-bag{animation:av-bag 2.6s ease-in-out infinite;transform-origin:center bottom}
 @keyframes av-bag{0%,60%,100%{transform:scale(1)}68%{transform:scale(1.07,.94)}78%{transform:scale(.97,1.04)}}
 @media(prefers-reduced-motion:reduce){.av *{animation:none!important}.av-truck{transform:translateX(168px)}.av-walk{transform:translateX(150px)}}
+
+/* ---- mobile: products first. Compact header, one-row actions, filters tucked away ---- */
+.fbtn{display:none}.fbody{display:grid;gap:6px}
+@media(max-width:800px){
+  header.top{position:static}
+  header.top .hdr{gap:8px 10px;min-height:0;padding-top:6px;padding-bottom:6px}
+  .brandmark{font-size:17px;gap:7px}.brandmark img{width:30px;height:30px}
+  .hnav{margin-left:auto;gap:8px}
+  .hsearch{gap:6px}.hsearch input{padding:9px 14px;font-size:14px}.hsearch .btn{padding:8px 14px;font-size:14px}
+  .ticker{font-size:11px}.ticker span{padding:6px 0}
+  .actionbar{flex-wrap:nowrap;overflow-x:auto;gap:8px;margin:10px 0;scrollbar-width:none}.actionbar::-webkit-scrollbar{display:none}
+  .actionbar a{flex:0 0 auto;white-space:nowrap;padding:7px 12px;font-size:13px;border-radius:99px}
+  .sideq{display:none}
+  .side .fbtn{display:flex;align-items:center;gap:8px;width:100%;justify-content:space-between;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;font:inherit;font-weight:600;color:var(--ink);cursor:pointer;text-align:left;white-space:nowrap}
+  .fdot{width:8px;height:8px;border-radius:50%;background:var(--blue);margin-right:auto}
+  .side .fbody{display:none;margin-top:6px}.side.open .fbody{display:grid;gap:6px}
+  .side h4{margin:8px 0 2px}
+  .mkt{gap:10px}
+  .chatfab{padding:9px 15px;font-size:14px;bottom:12px;right:12px}.chatbadge{padding:1px 7px;font-size:11px;margin-left:6px}
+}

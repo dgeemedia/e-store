@@ -307,6 +307,11 @@ export const D: Record<string, [string, string, string]> = {
 "卖家",
 "Vendeurs"
 ],
+"s.filters": [
+"Filter & sort",
+"筛选与排序",
+"Filtrer et trier"
+],
 "s.sort": [
 "Sort by",
 "排序",
