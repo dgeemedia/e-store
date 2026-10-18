@@ -8,6 +8,7 @@ import Intro from '@/components/Intro'
 import PWA from '@/components/PWA'
 import Analytics from '@/components/Analytics'
 import ChatWidget from '@/components/ChatWidget'
+import MobileNav from '@/components/MobileNav'
 import HeaderSearch from '@/components/HeaderSearch'
 import LangSwitcher from '@/components/LangSwitcher'
 import { LangProvider, T } from '@/lib/i18n'
@@ -40,15 +41,16 @@ export default async function Root({ children }: { children: React.ReactNode }) 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       {s.announcement && <div className="bar">{s.announcement}</div>}
       <header className="top"><div className="wrap hdr">
-        <Link href="/" className="brandmark"><img src="/logo.png" width={38} height={38} alt="" />elorge<span style={{ color: 'var(--green)' }}>store</span></Link>
-        <HeaderSearch />
-        <nav className="hnav"><Link href="/quote"><T k="nav.bulk" /></Link><Link href="/track"><T k="nav.track" /></Link><Link href="/account"><T k="nav.account" /></Link><LangSwitcher /><CartLink /></nav>
-      </div></header>
+        <nav className="hl"><Link href="/#shop"><T k="nav.shop" /></Link><Link href="/quote"><T k="nav.bulk" /></Link><Link href="/sell"><T k="nav.sell" /></Link></nav>
+        <Link href="/" aria-label="Elorge Store home" className="brandmark"><img src="/logo.png" width={40} height={40} alt="" /><span className="bm-t">elorge<em>store</em></span></Link>
+        <div className="hnav"><HeaderSearch /><Link href="/track"><T k="nav.track" /></Link><Link href="/account"><T k="nav.account" /></Link><LangSwitcher /><span className="hcart"><CartLink /></span></div>
+      </div><div className="wrap msearch"><HeaderSearch /></div></header>
       <PWA />
       {children}
+      <MobileNav />
       <footer><div className="wrap">
         <div className="fgrid">
-          <div><div className="brandmark"><img src="/logo.png" width={34} height={34} alt="" />elorge<span style={{ color: 'var(--green)' }}>store</span></div><p><T k="f.tag" /></p></div>
+          <div><Link href="/" className="brandmark" aria-label="Elorge Store"><img src="/logo.png" width={38} height={38} alt="" /><span className="bm-t">elorge<em>store</em></span></Link><div className="fqt">Factory-direct <i>•</i> Opor! <i>•</i> Shikini money</div><p style={{ marginTop: 14 }}><T k="f.tag" /></p></div>
           <div><h4><T k="f.shop" /></h4><Link href="/#shop"><T k="f.all" /></Link><Link href="/quote"><T k="f.bulk" /></Link><Link href="/track"><T k="f.track" /></Link><Link href="/cart"><T k="f.cart" /></Link><Link href="/sell"><T k="f.sell" /></Link><Link href="/logistics"><T k="f.deliver" /></Link><Link href="/account"><T k="f.account" /></Link></div>
           <div><h4><T k="f.contact" /></h4>{s.phone && <span>{s.phone}</span>}{s.email && <a href={`mailto:${s.email}`}>{s.email}</a>}{s.whatsappNumber && <a href={`https://wa.me/${s.whatsappNumber}`}><T k="f.whatsapp" /></a>}{s.address && <span>{s.address}</span>}{socials.length > 0 && <><h4 style={{ marginTop: 16 }}><T k="f.follow" /></h4><div className="social">{socials.map(([l, u]) => <a key={l} href={u} target="_blank" rel="noopener noreferrer">{l}</a>)}</div></>}</div>
           <div><h4><T k="f.why" /></h4><span><T k="f.why1" /></span><span><T k="f.why2" /></span><span><T k="f.why3" /></span><span><T k="f.why4" /></span></div>

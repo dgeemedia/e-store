@@ -2,6 +2,136 @@ export type Lang = 'en' | 'zh' | 'fr'
 export const LANGS: { code: Lang; label: string }[] = [{ code: 'en', label: 'English' }, { code: 'zh', label: '中文' }, { code: 'fr', label: 'Français' }]
 /** [English, Chinese (Simplified), French]. Drafted for review by native speakers. */
 export const D: Record<string, [string, string, string]> = {
+"nav.shop": [
+"Shop",
+"商店",
+"Boutique"
+],
+"nav.sell": [
+"Sell with us",
+"入驻开店",
+"Vendre chez nous"
+],
+"mn.home": [
+"Home",
+"首页",
+"Accueil"
+],
+"mn.shop": [
+"Shop",
+"商店",
+"Boutique"
+],
+"mn.quote": [
+"Bulk",
+"批发",
+"Gros"
+],
+"mn.account": [
+"Account",
+"账户",
+"Compte"
+],
+"mn.cart": [
+"Cart",
+"购物车",
+"Panier"
+],
+"h.heroKicker": [
+"Factory-direct from Nigeria",
+"尼日利亚工厂直供",
+"Direct usine, Nigeria"
+],
+"h.heroSub": [
+"Buy one, by the carton or by the truckload. The more you buy, the less you pay, with warranty on every order.",
+"单买、整箱买或整车买，买得越多越便宜，每单都有保修。",
+"Achetez une pièce, un carton ou un camion entier. Plus vous achetez, moins vous payez, avec garantie."
+],
+"h.heroCta": [
+"Shop now",
+"立即选购",
+"Acheter"
+],
+"h.heroCta2": [
+"Truckload quote",
+"整车报价",
+"Devis camion"
+],
+"h.tr1": [
+"Factory prices",
+"工厂价格",
+"Prix usine"
+],
+"h.tr2": [
+"Warranty on products",
+"产品保修",
+"Produits garantis"
+],
+"h.tr3": [
+"Delivery across Nigeria",
+"全国配送",
+"Livraison au Nigeria"
+],
+"h.st1": [
+"Factory",
+"工厂",
+"Usine"
+],
+"h.st2": [
+"direct",
+"直供",
+"directe"
+],
+"h.shopBy": [
+"Shop by category",
+"按类别选购",
+"Acheter par catégorie"
+],
+"h.view": [
+"View",
+"查看",
+"Voir"
+],
+"h.allProducts": [
+"All products",
+"全部产品",
+"Tous les produits"
+],
+"h.howT": [
+"Buy your way",
+"按您的方式购买",
+"Achetez à votre façon"
+],
+"h.how1t": [
+"Buy one or a few",
+"单件或少量购买",
+"Une pièce ou quelques-unes"
+],
+"h.how1d": [
+"Need just one? Add it to your cart and pay online. Retail price, no minimum.",
+"只需要一件？加入购物车在线付款即可。零售价，无最低数量。",
+"Une seule pièce ? Ajoutez-la au panier et payez en ligne. Prix détail, sans minimum."
+],
+"h.how2t": [
+"Save by the carton",
+"整箱更划算",
+"Économisez au carton"
+],
+"h.how2d": [
+"Buy by the carton or pack and the price per piece drops. Perfect for shops and resellers.",
+"按整箱或整包购买，单价更低。适合商店和经销商。",
+"Achetez au carton ou au lot et le prix unitaire baisse. Idéal pour boutiques et revendeurs."
+],
+"h.how3t": [
+"Truckload? Get a quote",
+"整车？获取报价",
+"Un camion ? Demandez un devis"
+],
+"h.how3d": [
+"Big project or wholesale order? Tell us what you need and we send the best price.",
+"大型项目或批发订单？告诉我们需求，我们给您最优价格。",
+"Gros chantier ou commande en gros ? Dites-nous ce qu’il vous faut, nous envoyons le meilleur prix."
+],
 "nav.bulk": [
 "Bulk orders",
 "批量订单",

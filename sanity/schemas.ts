@@ -83,8 +83,9 @@ const order = defineType({ name: 'order', title: 'Order', type: 'document', fiel
 ]) as any, preview: { select: { title: 'reference', subtitle: 'status' } } })
 
 const siteSettings = defineType({ name: 'siteSettings', title: 'Site Settings', type: 'document', fields: [
-  defineField({ name: 'heroTitle', type: 'string', initialValue: 'Factory-direct, Opor! Shikini money.' }),
+  defineField({ name: 'heroTitle', type: 'string', initialValue: 'Factory-direct, Opor! Shikini money.', description: 'Put *asterisks* around the words you want in italic colour, e.g. Factory-direct. *Opor!* Shikini money.' }),
   defineField({ name: 'heroSubtitle', type: 'text' }),
+  defineField({ name: 'heroImage', title: 'Home page hero photo', type: 'image', options: { hotspot: true }, description: 'Optional. Shown in the arch on the home page. Without it, your first products are shown.' }),
   defineField({ name: 'whatsappNumber', type: 'string', description: 'International format, no +, e.g. 2348012345678' }),
   defineField({ name: 'deliveryFeeLagos', type: 'number', initialValue: 3000 }),
   defineField({ name: 'deliveryFeeOther', type: 'number', initialValue: 8000 }),
