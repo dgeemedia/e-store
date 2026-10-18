@@ -3,7 +3,7 @@ import imageUrlBuilder from '@sanity/image-url'
 const cfg = { projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!, dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production', apiVersion: '2024-10-01' }
 export const client = createClient({ ...cfg, useCdn: false, perspective: 'published' })
 export const writeClient = createClient({ ...cfg, useCdn: false, token: process.env.SANITY_API_TOKEN })
-export const urlFor = (src: any) => imageUrlBuilder(cfg).image(src)
+export const urlFor = (src: any) => imageUrlBuilder(cfg).image(src).auto("format")
 
 export const P = `_id, name, nameZh, nameFr, descriptionZh, descriptionFr, "slug": slug.current, category, images, description, unitPrice, dozenPrice, packSize, packLabel, weightKg, options, soldUnits, "rating": math::avg(*[_type=="review" && product._ref==^._id && approved==true].rating), "reviewCount": count(*[_type=="review" && product._ref==^._id && approved==true]), tiers, warrantyMonths, stockUnits, featured, dispatchTime, "brand": brand->{name, tagline, logo, sponsored, "slug": slug.current}`
 export const getSettings = () => client.fetch(`*[_type=="siteSettings"][0]{..., "introVideoUrl": introVideo.asset->url}`)

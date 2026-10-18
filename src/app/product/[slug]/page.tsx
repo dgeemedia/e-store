@@ -24,7 +24,7 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
   const [reviews, relatedRaw] = await Promise.all([getReviews(p._id), getRelated(p.category, p._id)])
   const related = withPromo(relatedRaw, promo)
   const avg = reviews.length ? reviews.reduce((s: number, r: any) => s + r.rating, 0) / reviews.length : 0
-  const imgs = p.images.map((i: any) => ({ big: urlFor(i).width(900).url(), thumb: urlFor(i).width(120).height(120).url() }))
+  const imgs = p.images.map((i: any) => ({ big: urlFor(i).width(1000).url(), thumb: urlFor(i).width(120).height(120).url() }))
   const ld = { '@context': 'https://schema.org', '@type': 'Product', sku: slug, url: `${SITE}/product/${slug}`, name: p.name, image: imgs.map((i: any) => i.big), description: p.description, category: p.category, ...(p.brand?.name ? { brand: { '@type': 'Brand', name: p.brand.name } } : {}),
     ...(reviews.length ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: avg.toFixed(1), reviewCount: reviews.length } } : {}),
     offers: { '@type': 'Offer', url: `${SITE}/product/${slug}`, priceCurrency: 'NGN', price: p.promoUnitPrice ?? p.unitPrice, availability: p.stockUnits === 0 ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock' } }
@@ -34,7 +34,7 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
       <Gallery imgs={imgs} alt={p.name} />
-      <div><small>{p.brand?.name} · {p.category}</small><h1 style={{ margin: '6px 0 8px', letterSpacing: '-.03em' }}><L en={p.name} zh={p.nameZh} fr={p.nameFr} /></h1>
+      <div><small>{p.brand?.name} · {p.category}</small><h1><L en={p.name} zh={p.nameZh} fr={p.nameFr} /></h1>
         {!!reviews.length && <div style={{ color: '#e6a100', marginBottom: 6 }}>{'★'.repeat(Math.round(avg))}{'☆'.repeat(5 - Math.round(avg))} <small style={{ color: 'var(--mute)' }}>{avg.toFixed(1)} ({reviews.length})</small></div>}
         <p style={{ color: 'var(--mute)' }}><L en={p.description} zh={p.descriptionZh} fr={p.descriptionFr} /></p>
         <BuyBox p={p} image={urlFor(p.images[0]).width(120).height(120).url()} />

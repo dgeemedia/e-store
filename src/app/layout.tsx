@@ -1,6 +1,6 @@
 import './globals.css'
 import Link from 'next/link'
-import { Bricolage_Grotesque } from 'next/font/google'
+import { Manrope, Fraunces } from 'next/font/google'
 import { CartProvider } from '@/lib/cart'
 import { getSettings } from '@/lib/sanity'
 import CartLink from '@/components/CartLink'
@@ -11,7 +11,8 @@ import ChatWidget from '@/components/ChatWidget'
 import HeaderSearch from '@/components/HeaderSearch'
 import LangSwitcher from '@/components/LangSwitcher'
 import { LangProvider, T } from '@/lib/i18n'
-const font = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font' })
+const font = Manrope({ subsets: ['latin'], variable: '--font', display: 'swap' })
+const head = Fraunces({ subsets: ['latin'], variable: '--head', display: 'swap', axes: ['opsz'] })
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://elorgestore.org'
 export const metadata = {
   metadataBase: new URL(SITE),
@@ -32,7 +33,7 @@ export default async function Root({ children }: { children: React.ReactNode }) 
   const site = { ...orgLd['@graph'][1], potentialAction: { '@type': 'SearchAction', target: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://elorgestore.org'}/?q={search_term_string}`, 'query-input': 'required name=search_term_string' } }
   const ld = { ...orgLd, '@graph': [org, site] }
   return (
-    <html lang="en"><body className={font.variable}><CartProvider><LangProvider>
+    <html lang="en"><body className={`${font.variable} ${head.variable}`}><CartProvider><LangProvider>
       <Intro url={s.introVideoUrl} />
       <Analytics />
       <ChatWidget />

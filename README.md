@@ -247,3 +247,8 @@ If something breaks after the switch, the usual causes are: a variable not redep
 - Normal checkout checks stock when the order is created but reduces it when payment is confirmed, so two people could both pay for the last unit (lightning deals do not have this problem). Handle a clash by cancelling and refunding one order (cancelling restocks).
 - Because you pay sellers before collecting, cancelling a customer order after you have paid a seller does not reverse that payment automatically: agree in writing whether the seller refunds, credits or keeps it, and cancel only when needed.
 - Nothing has been tested with real payments, WhatsApp, SMS, Google or Facebook login; follow the test section of the go-live checklist before using live keys.
+
+## how to import item
+Run the import using
+node scripts/import.mjs --sellers import-data/sellers.csv --products import-data/products.csv --images import-data/images
+
