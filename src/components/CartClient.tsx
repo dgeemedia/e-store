@@ -1,5 +1,5 @@
-import { processingFee } from '@/lib/payfee'
 'use client'
+import { processingFee } from '@/lib/payfee'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useCart, naira } from '@/lib/cart'
