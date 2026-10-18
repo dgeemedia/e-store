@@ -1,3 +1,4 @@
+import { processingFee } from '@/lib/payfee'
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -51,7 +52,8 @@ export default function CartClient({ fees }: { fees: any }) {
       <div className="row"><Link href="/track" className="btn">{t('c.trackBtn')}</Link><Link href="/" className="btn ghost">{t('c.keep')}</Link></div>
     </div>)
   }
-  const amt = naira((fee == null ? subtotal - disc : subtotal - disc + fee))
+  const base = fee == null ? subtotal - disc : subtotal - disc + fee, pf = fee == null ? 0 : processingFee(base, fees.payFee, !!curObj), grand = base + pf
+  const amt = naira(fee == null ? base : grand)
   return (<div className="wrap" style={{ padding: '30px 20px', maxWidth: 760 }}><h1>{t('c.title')}</h1>
     {!lines.length && <p>{t('c.empty')} <Link href="/#shop"><u>{t('c.start')}</u></Link></p>}
     {lines.map((l: any, i: number) => (<div className="line" key={i}>{l.image && <img src={l.image} alt="" />}
@@ -70,7 +72,8 @@ export default function CartClient({ fees }: { fees: any }) {
       <div className="row" style={{ marginTop: 0 }}><input placeholder={t('c.code')} value={code} onChange={(e) => setCode(e.target.value)} style={{ flex: 1 }} /><button className="btn ghost" onClick={applyCoupon}>{t('c.apply')}</button></div>{cErr && <p className="err">{cErr}</p>}
       <div className="sum"><div><span>{t('c.sub')}</span><b>{naira(subtotal)}</b></div>{disc > 0 && <div><span>{t('c.disc', { code: cp.code })}</span><b>-{naira(disc)}</b></div>}
         <div><span>{t('c.delivery')}</span><b>{pickup ? t('c.freePickup') : fee == null ? t('c.enterState') : naira(fee)}</b></div>
-        <div className="tot"><span>{t('c.total')}</span><b>{fee == null ? `${naira(subtotal - disc)} ${t('c.plusDelivery')}` : naira(subtotal - disc + fee)}</b></div>{curObj && fee != null && <div><span>{t('c.charged')}</span><b>{curObj.code} {((subtotal - disc + fee) / curObj.rateNgn).toFixed(2)}</b></div>}</div>
+        {pf > 0 && <div><span>{t('c.procFee')}</span><b>{naira(pf)}</b></div>}
+        <div className="tot"><span>{t('c.total')}</span><b>{fee == null ? `${naira(subtotal - disc)} ${t('c.plusDelivery')}` : naira(grand)}</b></div>{curObj && fee != null && <div><span>{t('c.charged')}</span><b>{curObj.code} {(grand / curObj.rateNgn).toFixed(2)}</b></div>}</div>
       {big ? <p className="err">{t('c.big1')}<Link href="/quote"><u>{t('c.bigLink')}</u></Link>{t('c.big2')}</p>
         : <>{err && <p className="err">{err}</p>}<button className="btn green" style={{ width: '100%', padding: 16, fontSize: 17 }} disabled={busy} onClick={pay}>{busy ? t('c.wait') : t('c.pay', { amt })}</button>
           <p className="trust">{t('c.secure')}</p></>}

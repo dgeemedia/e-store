@@ -6,6 +6,7 @@ import { deliveryFee, partnerQuote } from '@/lib/shipping'
 import { client, getSettings, writeClient } from '@/lib/sanity'
 import { normPhone } from '@/lib/customer'
 import { normLang } from '@/lib/tserver'
+import { feeCfg, processingFee } from '@/lib/payfee'
 export async function POST(req: Request) {
   try {
     const b = await req.json()
@@ -33,12 +34,13 @@ export async function POST(req: Request) {
     // Optional foreign-currency payment for buyers abroad: rate comes from Studio, never from the browser.
     const cur = b.currency && b.currency !== 'NGN' ? (s.currencies || []).find((c: any) => c.code === b.currency) : null
     if (b.currency && b.currency !== 'NGN' && !cur) return NextResponse.json({ error: 'That currency is not available.' }, { status: 400 })
-    const payCurrency = cur?.code || 'NGN', payAmount = cur ? Math.round((total / cur.rateNgn) * 100) / 100 : total
+    const procFee = processingFee(total, feeCfg(s), !!cur) // 0 unless "Customer pays the payment fee" is on in Site Settings
+    const payCurrency = cur?.code || 'NGN', payAmount = cur ? Math.round(((total + procFee) / cur.rateNgn) * 100) / 100 : total + procFee
     const ref = `elg_${Date.now()}_${randomBytes(3).toString('hex')}`
     await writeClient.createIfNotExists({
       _id: `order-${ref}`, _type: 'order', reference: ref, viewKey: randomBytes(12).toString('hex'), status: 'pending', name: b.name, email: String(b.email).trim(), phone: b.phone,
       address: pickup ? 'PICKUP' : b.address || '', state: b.state || '', delivery: pickup ? 'pickup' : 'delivery', whatsappOptIn: !!b.whatsapp, ...logi, country, phoneNorm: normPhone(b.phone), lang: normLang(b.lang),
-      deliveryFee: fee, discount, couponCode: cp?.code || '', total, payCurrency, payAmount, items, createdAt: new Date().toISOString(),
+      deliveryFee: fee, processingFee: procFee, discount, couponCode: cp?.code || '', total, payCurrency, payAmount, items, createdAt: new Date().toISOString(),
     })
     const res = await fetch('https://api.flutterwave.com/v3/payments', {
       method: 'POST', headers: { Authorization: `Bearer ${process.env.FLUTTERWAVE_SECRET_KEY}`, 'Content-Type': 'application/json' },

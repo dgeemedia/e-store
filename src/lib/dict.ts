@@ -722,6 +722,11 @@ export const D: Record<string, [string, string, string]> = {
 "请填写州",
 "Indiquez votre État"
 ],
+"c.procFee": [
+"Payment processing fee",
+"支付手续费",
+"Frais de traitement du paiement"
+],
 "c.total": [
 "Total",
 "合计",

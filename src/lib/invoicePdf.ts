@@ -39,7 +39,8 @@ export async function buildInvoicePdf(o: any, s: any, langIn: any, waybill = fal
     if (o.discount) row(T('c.disc', { code: o.couponCode }), { right: '-' + money(o.discount) })
     row(T('c.delivery'), { right: money(o.deliveryFee) })
     if (s?.vatPercent) row(T('iv.vat', { n: s.vatPercent }), { right: money((o.total * s.vatPercent) / (100 + s.vatPercent)) })
-    row(T('iv.paid'), { f: bold, size: 13, right: money(o.total) })
+    if (o.processingFee > 0) row(T('c.procFee'), { right: money(o.processingFee) })
+    row(T('iv.paid'), { f: bold, size: 13, right: money(o.total + (o.processingFee || 0)) })
     if (o.payCurrency && o.payCurrency !== 'NGN') row(`${T('iv.charged')}: ${o.payCurrency} ${o.payAmount}`)
   }
   return pdf.save()
